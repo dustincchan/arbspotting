@@ -7,3 +7,7 @@ from django.http import HttpResponse
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
+
+def submit_price_deltas(request):
+    import ipdb; ipdb.set_trace()
+    pass
