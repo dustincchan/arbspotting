@@ -7,3 +7,7 @@ from django.db import models
 class PriceDelta(models.Model):
     symbol = models.CharField(max_length=30)
     delta = models.FloatField()
+    time = models.DateTimeField(auto_now_add=True)
+
+    def as_dict(self):
+        return {self.symbol: {'delta': self.delta, 'time': str(self.time)}}

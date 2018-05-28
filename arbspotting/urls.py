@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
     url(r'^submit_price_deltas/', views.submit_price_deltas, name="submit_price_deltas"),
+    url(r'^get_price_deltas/', views.get_price_deltas, name="get_price_deltas"),
+
 ]
