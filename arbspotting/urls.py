@@ -16,11 +16,14 @@ Including another URLconf
 from changellybinance import views
 from django.conf.urls import url
 from django.contrib import admin
+from django.views.generic.base import RedirectView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.home, name='home'),
+    url(r'^home/', views.home, name='home'),
     url(r'^submit_price_deltas/', views.submit_price_deltas, name="submit_price_deltas"),
     url(r'^get_price_deltas/', views.get_price_deltas, name="get_price_deltas"),
-
+    url(r'^shill_meter/', views.shill_meter, name="shill_meter"),
+    url(r'^$', RedirectView.as_view(url='home/', permanent=False), name='index')
 ]

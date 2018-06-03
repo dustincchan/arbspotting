@@ -10,14 +10,17 @@
     <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
 
   </head>
-  <body>
-
-    <div class="container">
+  <body style="background: #d0d0d0">
+  <div class="row">
+    <div class="col-sm-4">
       {% include "sidebar.html" %}
-      <div class="col-md-12">
-        <canvas id="chartJSContainer" width="600" height="400"></canvas>
-      </div>
     </div>
+    <div class="col-sm-8" style="margin-top:1em; padding-right:5em;">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+  </div>
   </body>
   <script src="{% static "js/bootstrap.min.js" %}" ></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -11,7 +11,10 @@ import datetime
 # Create your views here.
 def home(request):
     # data must be formatted as [{label: symbol, data: {x: time, y: delta}}, ...]
-    return render(request, 'home.html')
+    return render(request, 'arb_graph.html')
+
+def shill_meter(request):
+    return render(request, 'shill_meter.html')
 
 def get_price_deltas(request):
     all_price_deltas = PriceDelta.objects.all()

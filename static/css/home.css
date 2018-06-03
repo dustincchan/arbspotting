@@ -147,3 +147,7 @@ body {
   margin: 0px;
   padding: 0px;
 }
+
+input {
+  min-width: 10em;
+}
