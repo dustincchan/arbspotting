@@ -41,9 +41,7 @@ def get_price_deltas(request):
             except KeyError:
                 # sometimes we don't always have delta at the time we're trying to plot
                 # so just use 0 as a placeholder
-                data[symbol].append(0)
-
-    import ipdb; ipdb.set_trace()
+                data[symbol].append('null')
 
     return JsonResponse(data, safe=False)
 
@@ -56,11 +54,9 @@ def submit_price_deltas(request):
         for symbol in request.POST.keys():
             delta = request.POST[symbol]
             if symbol and delta:
-                new_price_delta = PriceDelta.objects.create(symbol=symbol, delta=float(delta), time=now)
-                json_response.append({
-                new_price_delta.symbol: {
-                    'time': str(new_price_delta.time),
-                    'delta': new_price_delta.delta
-                    }
-                })
+                # show values greater than +1% and less than -4% only
+                float_delta = float(delta)
+                if float_delta > 1 or float_delta < -4:
+                    new_price_delta = PriceDelta.objects.create(symbol=symbol, delta=float(delta), time=now)
+                    json_response.append({new_price_delta.symbol: {'time': str(new_price_delta.time), 'delta': new_price_delta.delta}})
     return JsonResponse(json_response, safe=False)
