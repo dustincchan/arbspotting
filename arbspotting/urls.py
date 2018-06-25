@@ -25,5 +25,7 @@ urlpatterns = [
     url(r'^submit_price_deltas/', views.submit_price_deltas, name="submit_price_deltas"),
     url(r'^get_price_deltas/', views.get_price_deltas, name="get_price_deltas"),
     url(r'^shill_meter/', views.shill_meter, name="shill_meter"),
-    url(r'^$', RedirectView.as_view(url='home/', permanent=False), name='index')
+    url(r'^$', RedirectView.as_view(url='home/', permanent=False), name='index'),
+    url(r'^sync_coin_list_with_coinmarketcap/', views.sync_coin_list_with_coinmarketcap, name="sync_coin_list_with_coinmarketcap"),
+    url(r'^scan_4chan_posts/', views.scan_4chan_posts, name="scan_4chan_posts"),
 ]
