@@ -18,3 +18,4 @@ class SMSNotificationSetting(models.Model):
 class SMSSent(models.Model):
     to = models.ForeignKey(SMSNotificationSetting)
     sent = models.DateTimeField(auto_now_add=True)
+    symbol = models.CharField(max_length=30)

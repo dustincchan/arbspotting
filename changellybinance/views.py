@@ -6,9 +6,15 @@ from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 
-from changellybinance.models import PriceDelta, SMSNotificationSetting
+from changellybinance.models import PriceDelta, SMSNotificationSetting, SMSSent
 from collections import defaultdict
 import datetime, requests
+
+# twilio setup
+from twilio.rest import Client
+account_sid = "ACcd92974e089f6b7c04805e7716d08511"
+auth_token  = "46b1f6e3812de30312c03f1efbaab3d9"
+client = Client(account_sid, auth_token)
 
 # Create your views here.
 def home(request):
@@ -85,6 +91,7 @@ def get_price_deltas(request):
 @csrf_exempt
 def submit_price_deltas(request):
     json_response = []
+    all_sms_settings = SMSNotificationSetting.objects.all()
     # creates a batch of new PriceDelta objects
     now = datetime.datetime.now()
     if request.POST:
@@ -95,5 +102,32 @@ def submit_price_deltas(request):
                 float_delta = float(delta)
                 if float_delta > 1 or float_delta < -10:
                     new_price_delta = PriceDelta.objects.create(symbol=symbol, delta=float(delta), time=now)
+                    for sms_setting in all_sms_settings:
+                        if float_delta >= sms_setting.delta_threshold and not past_max_daily_sms_for_coin(sms_setting.phone_number, symbol):
+                            send_twilio_sms(sms_setting.phone_number, symbol, delta)
+
                     json_response.append({new_price_delta.symbol: {'time': str(new_price_delta.time), 'delta': new_price_delta.delta}})
     return JsonResponse(json_response, safe=False)
+
+def send_twilio_sms(phone_number, symbol, delta):
+    message_body = "Arb delta found: {}, {}%".format(symbol, delta)
+    message = client.messages.create(
+        to=phone_number,
+        from_="+19256607941",
+        body=message_body)
+
+    if (message.sid):
+        SMSSent.objects.create(to=phone_number, symbol=symbol)
+
+
+def past_max_daily_sms_for_coin(phone_number, symbol):
+    one_day_ago = datetime.datetime.now() - datetime.timedelta(hours=24)
+    num_sms_sent_in_last_24_hrs_for_coin = SMSSent.objects.filter(
+        to__phone_number=phone_number,
+        sent__gte=one_day_ago,
+        symbol=symbol
+    ).count()
+
+    if num_sms_sent_in_last_24_hrs_for_coin > 5: # TODO this '5' should be set dynamically
+        return True
+    return False
