@@ -1,19 +1,7 @@
-"""arbspotting URL Configuration
+from changellybinance import views as changellybinance_views
+from fourchan_scanner import views as fourchan_scanner_views
+from coinmarketcap import views as coinmarketcap_views
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
-from changellybinance import views
 from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
@@ -21,11 +9,14 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^home/', views.home, name='home'),
-    url(r'^submit_price_deltas/', views.submit_price_deltas, name="submit_price_deltas"),
-    url(r'^get_price_deltas/', views.get_price_deltas, name="get_price_deltas"),
-    url(r'^shill_meter/', views.shill_meter, name="shill_meter"),
-    url(r'^$', RedirectView.as_view(url='home/', permanent=False), name='index'),
-    url(r'^sync_coin_list_with_coinmarketcap/', views.sync_coin_list_with_coinmarketcap, name="sync_coin_list_with_coinmarketcap"),
-    url(r'^scan_4chan_posts/', views.scan_4chan_posts, name="scan_4chan_posts"),
+    url(r'^home/', changellybinance_views.home, name="home"),
+    url(r'^submit_price_deltas/', changellybinance_views.submit_price_deltas, name="submit_price_deltas"),
+    url(r'^get_price_deltas/', changellybinance_views.get_price_deltas, name="get_price_deltas"),
+    url(r'^fourchan_scanner/', fourchan_scanner_views.fourchan_scanner, name="fourchan_scanner"),
+    url(r'^update_fourchan_posts/', fourchan_scanner_views.update_fourchan_posts, name="update_fourchan_posts"),
+    url(r'^sync_coin_list_with_coinmarketcap/', coinmarketcap_views.sync_coin_list_with_coinmarketcap, name="sync_coin_list_with_coinmarketcap"),
+
+    # api methods
+    url(r'^add_sms_notification_number/',  changellybinance_views.add_sms_notification_number, name="add_sms_notification_number"),
+    url(r'^remove_number/',  changellybinance_views.remove_number, name="remove_number"),
 ]

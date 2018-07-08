@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'changellybinance',
+    'fourchan_scanner',
+    'coinmarketcap',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

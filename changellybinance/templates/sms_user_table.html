@@ -1,0 +1,24 @@
+<div class="card" style="padding: 1em;">
+  <div class="card-block">
+    <table class="table">
+      <thead class="thead-dark">
+        <th>Notifying</th>
+        <th>When Delta > (%)</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        {% for user in sms_users %}
+        <tr>
+          <td>{{ user.phone_number }}</td>
+          <td>{{ user.threshold|default:"Any"}}</td>
+          <td><button data-phone-number='{{ user.phone_number }}' type="button" class="btn btn-danger remove-number">X</button></td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td class="text-center" colspan='2'>No Users Subscribed</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

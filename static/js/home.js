@@ -57,12 +57,38 @@ function createChartDataFromResponse(response) {
 
   return {
     type: 'line',
+    responsive: true,
     data: {labels: response.times, datasets: datasets},
     options: {
       title: {
         display: true,
-        text: 'Changelly vs Binance Prices  '
+        text: 'Changelly vs Binance Prices (%)'
       }
     }
   }
 }
+
+$(document).on('click', '#addSMSToNotify', function() {
+  var phone_number = $('#smsNumberInput').val();
+  var delta_threshold = $('#deltaThresholdInput').val();
+
+  $.ajax({
+    url: 'http://localhost:8000/add_sms_notification_number/',
+    data: {phone_number, delta_threshold},
+    success: function(response) {
+      // replace the table html
+      $('#table-container').html(response);
+    }
+  })
+})
+
+$(document).on('click', '.remove-number', function() {
+  var phoneNum = $(this).data('phone-number');
+  $.ajax({
+    url: 'http://localhost:8000/remove_number/',
+    data: {'pk': phoneNum},
+    success: function(response) {
+      $('#table-container').html(response);
+    }
+  })
+})
