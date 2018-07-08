@@ -19,4 +19,6 @@ urlpatterns = [
     # api methods
     url(r'^add_sms_notification_number/',  changellybinance_views.add_sms_notification_number, name="add_sms_notification_number"),
     url(r'^remove_number/',  changellybinance_views.remove_number, name="remove_number"),
+    url(r'^delete_all_arb_data/',  changellybinance_views.delete_all_arb_data, name="delete_all_arb_data"),
+
 ]

@@ -14,3 +14,7 @@ class PriceDelta(models.Model):
 class SMSNotificationSetting(models.Model):
     phone_number = models.CharField(max_length=30, primary_key=True)
     delta_threshold = models.FloatField(default=0.0, blank=True)
+
+class SMSSent(models.Model):
+    to = models.ForeignKey(SMSNotificationSetting)
+    sent = models.DateTimeField(auto_now_add=True)

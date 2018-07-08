@@ -92,3 +92,19 @@ $(document).on('click', '.remove-number', function() {
     }
   })
 })
+
+$(document).on('click', '#delete-all-data', function() {
+  var dlete = prompt('This will delete everything. Type "Delete" to confirm');
+  if (dlete.trim() === "Delete") {
+    $.ajax({
+      url: 'http://localhost:8000/delete_all_arb_data/',
+      success: function(response) {
+        // replace the table html
+        alert('All arb deltas were deleted');
+        refreshChart();
+      }
+    })
+  } else {
+    alert('Incorrect phrase entered');
+  }
+})

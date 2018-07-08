@@ -10,7 +10,7 @@
         {% for user in sms_users %}
         <tr>
           <td>{{ user.phone_number }}</td>
-          <td>{{ user.threshold|default:"Any"}}</td>
+          <td>{{ user.threshold|default:"0"}}</td>
           <td><button data-phone-number='{{ user.phone_number }}' type="button" class="btn btn-danger remove-number">X</button></td>
         </tr>
         {% empty %}

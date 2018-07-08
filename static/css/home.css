@@ -151,3 +151,7 @@ body {
 input {
   min-width: 10em;
 }
+
+#delete-all-data {
+  margin-top: 1em;
+}

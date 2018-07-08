@@ -16,6 +16,10 @@ def home(request):
     data = {'sms_users': SMSNotificationSetting.objects.all()}
     return render(request, 'arb_graph.html', context=data)
 
+def delete_all_arb_data(request):
+    PriceDelta.objects.all().delete()
+    return JsonResponse({'success': True})
+
 def scan_for_4chan_coin_mentions_from_all_threads(request):
     # for now just from thread themselves and not the responses
     pass
