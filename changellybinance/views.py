@@ -13,7 +13,7 @@ import datetime, requests
 # twilio setup
 from twilio.rest import Client
 account_sid = "ACcd92974e089f6b7c04805e7716d08511"
-auth_token  = "46b1f6e3812de30312c03f1efbaab3d9"
+auth_token  = os.environ.get('TWILIO_KEY')
 client = Client(account_sid, auth_token)
 
 # Create your views here.
